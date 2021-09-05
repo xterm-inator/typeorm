@@ -24,6 +24,7 @@ import {UpdateValuesMissingError} from "../error/UpdateValuesMissingError";
 import {EntityColumnNotFound} from "../error/EntityColumnNotFound";
 import {QueryDeepPartialEntity} from "./QueryPartialEntity";
 import {AuroraDataApiDriver} from "../driver/aurora-data-api/AuroraDataApiDriver";
+import {NativescriptDriver} from "../driver/nativescript/NativescriptDriver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -421,7 +422,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity> implements 
                     // todo: duplication zone
                     if (value instanceof Function) { // support for SQL expressions in update query
                         updateColumnAndValues.push(this.escape(column.databaseName) + " = " + value());
-                    } else if (this.connection.driver instanceof SapDriver && value === null) {
+                    } else if ((this.connection.driver instanceof SapDriver || this.connection.driver instanceof NativescriptDriver) && value === null) {
                         updateColumnAndValues.push(this.escape(column.databaseName) + " = NULL");
                     } else {
                         if (this.connection.driver instanceof SqlServerDriver) {
