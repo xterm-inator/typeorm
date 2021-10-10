@@ -418,7 +418,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity> implements 
                     else if (!(value instanceof Function)) {
                         value = this.connection.driver.preparePersistentValue(value, column);
                     }
-                    console.log(value)
+
                     // todo: duplication zone
                     if (value instanceof Function) { // support for SQL expressions in update query
                         updateColumnAndValues.push(this.escape(column.databaseName) + " = " + value());
